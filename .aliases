@@ -1,0 +1,25 @@
+alias lr="rsync -avz --delete-before --exclude='*TAGS*' --exclude='GPATH' --exclude='.git/' --exclude='psdrv_gpl' --exclude='tools/*.bdev' --exclude='tools/premake' --exclude='tpc' --exclude='tools/pure' \"/Users/xin.zhao/work/purity/\" vm:\"/home/xin.zhao/work/purity\""
+alias ps-ctags="cd $HOME/work/purity; ctags -e -R --exclude=.git --exclude=Documentation --exclude=appliancekit --exclude=boot --exclude=build --exclude=build_override --exclude=certification --exclude=chassismgr --exclude=debian --exclude=docs --exclude=drv --exclude=examples --exclude=indtools --exclude=linux-kernel --exclude=psdrv_gpl --exclude=runtime --exclude=tpc --exclude=ui --exclude=virtual-shelf"
+gpub() {
+[[ "$#" != 1 ]] && local b="$(current_branch)"
+git push origin "HEAD:users/xin.zhao/${b:=$1}"
+}
+gpubf() {
+[[ "$#" != 1 ]] && local b="$(current_branch)"
+git push origin "HEAD:users/xin.zhao/${b:=$1}" --force
+}
+alias gpub!="gpubf"
+alias fuse="ssh fuse"
+alias vm="ssh vm"
+
+alias go-production='ln -fs ~/.iris/iris.cfg.prod ~/.iris/iris.cfg; ln -fs ~/.aws/config.prod ~/.aws/config'
+alias go-staging='ln -fs ~/.iris/iris.cfg.staging ~/.iris/iris.cfg; ln -fs ~/.aws/config.staging ~/.aws/config'
+alias go-dev='ln -fs ~/.iris/iris.cfg.dev ~/.iris/iris.cfg; ln -fs ~/.aws/config.dev ~/.aws/config'
+alias go-local='ln -fs ~/.iris/iris.cfg.local ~/.iris/iris.cfg; ln -fs ~/.aws/config.staging ~/.aws/cofig'
+alias go-spog='ln -fs ~/.iris/iris.cfg.spog ~/.iris/iris.cfg; ln -fs ~/.aws/config.spog ~/.aws/config'
+
+alias msshn='machines.py ssh --name '
+alias ml='machines.py list'
+alias mlg='machines.py list 2>&1 | grep '
+alias clear='echo -e "\n\n\n\n\n\n\n\n\n\n\n\n\n\n"; echo " "; /usr/bin/clear'
+alias build_iris='vagrant ssh -c "cd /vagrant; /vagrant/tools/iris/build_deb.sh"'
