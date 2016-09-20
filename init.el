@@ -16,6 +16,8 @@
 
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
+
+;; package
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (let ((default-directory "~/.emacs.d/lisp/"))
   (normal-top-level-add-subdirs-to-load-path))
@@ -50,15 +52,30 @@
 ;; (add-hook 'c-mode-common-hook '(lambda () (add-to-list ‘write-file-functions ‘delete-trailing-whitespace)))
 
 
+;; company-mode
+(add-hook 'after-init-hook 'global-company-mode)
+
+ 
+;; anaconda-mode
+(add-hook 'python-mode-hook 'anaconda-mode)
+(eval-after-load "company"
+'(add-to-list 'company-backends 'company-anaconda))
+
 
 ;; helm
 (require 'helm)
 (require 'helm-config)
 (require 'helm-ls-git)
-(require 'helm-descbinds)
+
 
 ;; helm-descbinds
+(require 'helm-descbinds)
 (helm-descbinds-mode)
+
+
+;; helm list buffers
+(global-set-key [remap switch-to-buffer] 'helm-buffers-list)
+
 
 ;; helm-ls-git
 (setq helm-ls-git-grep-command
@@ -74,6 +91,7 @@
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
 (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 
+
 (when (executable-find "curl")
   (setq helm-google-suggest-use-curl-p t))
 
@@ -86,16 +104,16 @@
 (helm-mode 1)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x f") 'helm-browse-project)
 (setq helm-grep-default-command "ack -Hn --smart-case --no-group %p %f"
       helm-grep-default-recurse-command "ack -H -C3 --smart-case --no-group %p %f")
 (global-set-key (kbd "C-S-s") 'helm-grep-do-git-grep)
 
-;; helm-cmd-t
-(require 'helm-cmd-t)
-(require 'helm-C-x-b)
 
-(global-set-key [remap switch-to-buffer] 'helm-C-x-b)
-(global-set-key (kbd "C-x f") 'helm-cmd-t)
+;; helm-swoop
+(require 'helm-swoop)
+(global-set-key (kbd "M-i") 'helm-swoop)
+
 
 ;; helm gtags
 (require 'helm-gtags)
@@ -107,7 +125,6 @@
 (add-hook 'asm-mode-hook 'helm-gtags-mode)
 (add-hook 'python-mode-hook 'helm-gtags-mode)
 
-(define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
 (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
 (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
 (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
@@ -116,6 +133,7 @@
 (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
 
 (setq helm-gtags-auto-update t) ; auto update tags
+
 
 ;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
